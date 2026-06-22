@@ -21,7 +21,7 @@ import com.timenw.mindtracker.ui.theme.MindWarning
 import java.text.SimpleDateFormat
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun MindHomeTab(
     summary: DailyMindSummary,
@@ -51,7 +51,7 @@ fun MindHomeTab(
                     MoodMeter(score = summary.avgOverall, size = 150)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "冥想 ${summary.totalMindfulnessMin}min / 目标 ${targetMindfulnessMin}min",
+                Text(text = "冥想 ${summary.totalMindfulnessMin}min / 目标 ${targetMindfulMin}min",
                     style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
             }
@@ -96,7 +96,7 @@ fun MindHomeTab(
                                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
                                     }
                                 }
-                                Text(text = formatter.format(Date(record.timestamp)),
+                                Text(text = record.date,
                                     style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 IconButton(onClick = { onRemoveRecord(record.id) }) {
                                     Icon(Icons.Default.Delete, contentDescription = "删除", tint = MaterialTheme.colorScheme.error)
@@ -127,7 +127,7 @@ fun MindHomeTab(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun MindRecordDialog(onDismiss: () -> Unit, onSave: (MindRecord) -> Unit, targetMindfulMin: Int) {
     var emotion by remember { mutableStateOf(Emotion.CALM) }
@@ -156,7 +156,7 @@ fun MindRecordDialog(onDismiss: () -> Unit, onSave: (MindRecord) -> Unit, target
                 Slider(value = stress.toFloat(), onValueChange = { stress = it.toInt() }, valueRange = 1f..5f, steps = 3)
                 Text("快乐: $happiness", style = MaterialTheme.typography.labelMedium)
                 Slider(value = happiness.toFloat(), onValueChange = { happiness = it.toInt() }, valueRange = 1f..5f, steps = 3)
-                Text("焦虑: $anxious", style = MaterialTheme.typography.labelMedium)
+                Text("焦虑: $anxiety", style = MaterialTheme.typography.labelMedium)
                 Slider(value = anxiety.toFloat(), onValueChange = { anxiety = it.toInt() }, valueRange = 1f..5f, steps = 3)
                 Text("精力: $energy", style = MaterialTheme.typography.labelMedium)
                 Slider(value = energy.toFloat(), onValueChange = { energy = it.toInt() }, valueRange = 1f..5f, steps = 3)
